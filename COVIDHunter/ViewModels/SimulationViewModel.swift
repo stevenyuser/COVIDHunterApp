@@ -74,14 +74,21 @@ class SimulationViewModel: ObservableObject {
     
     @Published var resultModel: ResultModel?
     
+    @Published var isLoading: Bool = false
+    
+    @MainActor
     func run() async  {
-        runSimulation()
+        isLoading = true
+        print("hello")
+        await Task.sleep(1) // why does Task.sleep need to be here for UI to not freeze
+        resultModel = await runSimulation()
+        print("goodbye")
+        isLoading = false
     }
     
     // simulation code
-    func runSimulation() {
-        DispatchQueue.global().async { [self] in
-            
+    func runSimulation() async -> ResultModel {
+        print("running")
         // denominator for calculated actual and intrinsic R value
         var people = [Person]()
         var victims = [Int](repeating: 0, count: NUM_DAYS)
@@ -178,10 +185,6 @@ class SimulationViewModel: ObservableObject {
         let vaccinated = String(format: "%2.3f", Double(total_vaccinated)/Double(POPULATION)*100.0)
         print("total infected_base=\(infected)% total_infected_variant=\(infected_variant) total immune=\(immune)%  total vaccinated=\(vaccinated)%")
         
-        // initializing resultsModel
-            DispatchQueue.main.async {
-        resultModel = ResultModel(newlyInfected0: newlyInfected0, newlyInfected1: newlyInfected1, hospitalizationsNumber: hospitalizationsNumber, deathsNumber: deathsNumber, totalInfections: total_infections)
-        }
             
         
         // nested functions
@@ -502,7 +505,9 @@ class SimulationViewModel: ObservableObject {
                 people.append(Person())
             }
         }
-            
-        }
+        
+        
+        // initializing resultsModel
+        return ResultModel(newlyInfected0: newlyInfected0, newlyInfected1: newlyInfected1, hospitalizationsNumber: hospitalizationsNumber, deathsNumber: deathsNumber, totalInfections: total_infections)
     }
 }

@@ -10,7 +10,8 @@ import SwiftUICharts
 
 struct LineChartView: View {
     var body: some View {
-        var test = LineChartData(
+        Text("hello world")
+        // var test = LineChartData(
         // LineChart(chartData: <#T##LineChartData#>)
     }
 }

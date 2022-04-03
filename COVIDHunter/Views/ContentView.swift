@@ -350,15 +350,15 @@ extension ContentView {
             }
             .sheet(isPresented: $showResultsView, content: {
                 // force unwrapping, will crash if not initialized properly
-                if let results = vm.resultModel {
-                    ResultsView(results: results)
-                } else {
-                        ProgressView("Calculating")
-                            .padding()
-                            .background(Color.secondary)
-                            .cornerRadius(10)
-                }
+                ResultsView(results: vm.resultModel!)
             })
+            
+            if(vm.isLoading) {
+                ProgressView("Calculating")
+                    .padding()
+                    .background(Color.secondary)
+                    .cornerRadius(10)
+            }
         }
     }
 }
