@@ -3,11 +3,13 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		160878D427CBC41F001FC4D6 /* GeneralInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160878D327CBC41F001FC4D6 /* GeneralInfoView.swift */; };
+		160A429427F95170007D619E /* SwiftUICharts in Frameworks */ = {isa = PBXBuildFile; productRef = 160A429327F95170007D619E /* SwiftUICharts */; };
+		160A429627F95181007D619E /* LineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160A429527F95181007D619E /* LineChartView.swift */; };
 		1612088427A61DD0009B97B0 /* COVIDHunterApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1612088327A61DD0009B97B0 /* COVIDHunterApp.swift */; };
 		1612088627A61DD0009B97B0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1612088527A61DD0009B97B0 /* ContentView.swift */; };
 		1612088827A61DD1009B97B0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1612088727A61DD1009B97B0 /* Assets.xcassets */; };
@@ -23,6 +25,7 @@
 
 /* Begin PBXFileReference section */
 		160878D327CBC41F001FC4D6 /* GeneralInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralInfoView.swift; sourceTree = "<group>"; };
+		160A429527F95181007D619E /* LineChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartView.swift; sourceTree = "<group>"; };
 		1612088027A61DD0009B97B0 /* COVIDHunter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = COVIDHunter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1612088327A61DD0009B97B0 /* COVIDHunterApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = COVIDHunterApp.swift; sourceTree = "<group>"; };
 		1612088527A61DD0009B97B0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -43,6 +46,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				160A429427F95170007D619E /* SwiftUICharts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -56,6 +60,7 @@
 				16FC128B27D5080F009CA8DF /* ResultsView.swift */,
 				169BF4A927F09E5900D6BAD9 /* ModelInfoView.swift */,
 				167DCA2427F0A0B7004466E7 /* ChartView.swift */,
+				160A429527F95181007D619E /* LineChartView.swift */,
 			);
 			path = Details;
 			sourceTree = "<group>";
@@ -149,6 +154,9 @@
 			dependencies = (
 			);
 			name = COVIDHunter;
+			packageProductDependencies = (
+				160A429327F95170007D619E /* SwiftUICharts */,
+			);
 			productName = COVIDHunter;
 			productReference = 1612088027A61DD0009B97B0 /* COVIDHunter.app */;
 			productType = "com.apple.product-type.application";
@@ -176,6 +184,9 @@
 				Base,
 			);
 			mainGroup = 1612087727A61DD0009B97B0;
+			packageReferences = (
+				160A429227F95170007D619E /* XCRemoteSwiftPackageReference "SwiftUICharts" */,
+			);
 			productRefGroup = 1612088127A61DD0009B97B0 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -204,6 +215,7 @@
 			files = (
 				161EECFD27AC5F57000901A7 /* COVIDHunterScript.swift in Sources */,
 				16FC128C27D5080F009CA8DF /* ResultsView.swift in Sources */,
+				160A429627F95181007D619E /* LineChartView.swift in Sources */,
 				163D0FBB27A62BFE000B2A03 /* Model.swift in Sources */,
 				167DCA2527F0A0B7004466E7 /* ChartView.swift in Sources */,
 				160878D427CBC41F001FC4D6 /* GeneralInfoView.swift in Sources */,
@@ -400,6 +412,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		160A429227F95170007D619E /* XCRemoteSwiftPackageReference "SwiftUICharts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/willdale/SwiftUICharts";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		160A429327F95170007D619E /* SwiftUICharts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 160A429227F95170007D619E /* XCRemoteSwiftPackageReference "SwiftUICharts" */;
+			productName = SwiftUICharts;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1612087827A61DD0009B97B0 /* Project object */;
 }

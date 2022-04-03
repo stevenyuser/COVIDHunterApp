@@ -336,8 +336,10 @@ extension ContentView {
         ZStack {
             VStack {
                 Button(action: {
-                    vm.runSimulation()
-                    showResultsView.toggle()
+                    Task {
+                        await vm.run()
+                        showResultsView.toggle()
+                    }
                 }, label: {
                     Text("Start Simulation!")
                         .foregroundColor(Color.white)
@@ -348,17 +350,15 @@ extension ContentView {
             }
             .sheet(isPresented: $showResultsView, content: {
                 // force unwrapping, will crash if not initialized properly
-                ResultsView(results: vm.resultModel!)
+                if let results = vm.resultModel {
+                    ResultsView(results: results)
+                } else {
+                        ProgressView("Calculating")
+                            .padding()
+                            .background(Color.secondary)
+                            .cornerRadius(10)
+                }
             })
-            
-            
-            if(vm.isLoading) {
-                ProgressView("Calculating")
-                    .padding()
-                    .background(Color.secondary)
-                    .cornerRadius(10)
-            }
-            
         }
     }
 }
