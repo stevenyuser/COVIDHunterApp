@@ -482,6 +482,7 @@ class SimulationViewModel: ObservableObject {
             deathsNumber.append((Y * Double(newly_infected[0]+newly_infected[1])))
             
             print("\(day+1), \(POPULATION-free_person_ptr), \(newly_infected[0]), \(newly_infected[1]), \(hospitalizations_number), \(deaths_number), \(infected_original), \(contagious), \(sick_person_ptr+immune), \(total_vaccinated),  \(asymptomatic), \(total_travelers), \(intrinsic_r_string), \(C_string), \(M_string), \(phase_string), \(temp_r_string), \(phase_temp_r_string), \(actual_r_string)")
+            print("DEBUG: day - \(day+1), infections - \(newly_infected[0] + newly_infected[1])")
             
             //print("Day, Uninfected, new infections base, active infections, contagious, asymptomatic, immune, travelers, R0i (intrinsic R0), R0i*Ct (intrinsic including migitation), R0i*Ct (temperature adjusted R0), R0i*Ct*(1-M) (temp adjusted R0 including mitigation), Rt (observed R number), new infections variant, vaccations")
             //print("\(day), \(POPULATION-free_person_ptr), \(newly_infected[0]), \(infected_original), \(contagious), \(asymptomatic), \(sick_person_ptr+immune), \(total_travelers), \(intrinsic_r_string), \(phase_string), \(temp_r_string), \(phase_temp_r_string), \(actual_r_string), \(newly_infected[1]), \(total_vaccinated)")

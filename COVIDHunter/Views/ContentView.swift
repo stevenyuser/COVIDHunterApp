@@ -28,6 +28,10 @@ struct ContentView: View {
     @State var TEMP_SCALING_FLOOR: Double = 10.0
     @State var TEMP_SCALING_CEILING: Double = 26.0
     
+    // wang
+    @State var Wang_TEMP_SCALING_FACTOR: Double = 0.02
+    @State var Wang_Humidity_SCALING_FACTOR: Double = 0.008
+    
     private let months = ["January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "November", "December"]
     
     var body: some View {
@@ -419,7 +423,33 @@ extension ContentView {
                         .disabled(vm.modelInitalized)
                     }
                 case ModelEnum.Wang:
-                    Text("Not implemented yet")
+                    Section {
+                        HStack {
+                            Text("Temperature Scaling Factor")
+                            Spacer()
+                            TextField("Wang_TEMP_SCALING_FACTOR", value: $Wang_TEMP_SCALING_FACTOR, formatter: NumberFormatter())
+                                .multilineTextAlignment(.trailing)
+                                .keyboardType(.numberPad)
+                                .foregroundColor(Color.blue)
+                        }
+                        
+                        HStack {
+                            Text("Humidity Scaling Factor")
+                            Spacer()
+                            TextField("Wang_Humidity_SCALING_FACTOR", value: $Wang_Humidity_SCALING_FACTOR, formatter: NumberFormatter())
+                                .multilineTextAlignment(.trailing)
+                                .keyboardType(.numberPad)
+                                .foregroundColor(Color.blue)
+                        }
+                        
+                        Button(action: {
+                            vm.wangModel = WangModel(Wang_TEMP_SCALING_FACTOR: Wang_TEMP_SCALING_FACTOR, Wang_Humidity_SCALING_FACTOR: Wang_Humidity_SCALING_FACTOR)
+                            vm.modelInitalized = true
+                        }, label: {
+                            Text(vm.modelInitalized ? "Model Initalized!" : "Initialize Model to Continue")
+                        })
+                        .disabled(vm.modelInitalized)
+                    }
                 }
                 
                 Section {

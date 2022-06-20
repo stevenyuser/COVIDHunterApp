@@ -76,15 +76,26 @@ struct HarvardModel {
 }
 
 struct WangModel {
-    let Wang_TEMP_SCALING_FACTOR = 0.02 // Linear scaling of infectiousness per degree temperature drop. 0.05 => 5% more infectious per degree of temperature drop
-    let Wang_Humidity_SCALING_FACTOR = 0.008 // Linear scaling of infectiousness per degree temperature drop. 0.05 => 5% more infectious per degree of temperature drop
+    let Wang_TEMP_SCALING_FACTOR: Double // Linear scaling of infectiousness per degree temperature drop. 0.05 => 5% more infectious per degree of temperature drop
+    let Wang_Humidity_SCALING_FACTOR: Double // Linear scaling of infectiousness per degree temperature drop. 0.05 => 5% more infectious per degree of temperature drop
 
-    // THIS IS FOR SWITZERLAND SPECIFIC, maybe change to be user configurable later
-    let TEMP_MONTHLY_HIGH = [4, 6, 11, 15, 19, 23, 25, 24, 20, 15, 9, 5]
-    let TEMP_November_HIGH = [13, 15, 12, 12, 8, 8, 8, 3, 6, 6, 9, 6, 5, 6, 4, 5, 2, 4, 3, 6, 7, 7, 8, 9, 9, 10, 9, 7, 4, 5]
-    let TEMP_MONTHLY_LOW = [-1, 0, 3,  6, 10, 13,  15, 15, 12, 8,  3, 0]
-    // Relative humidity https://www.worlddata.info/europe/switzerland/climate.php
-    let Humidity_MONTHLY_HIGH = [80, 77, 71, 69, 71, 70, 68, 72, 76, 80, 80, 80]
+    // not specifically needed for the wang model
+//    // THIS IS FOR SWITZERLAND SPECIFIC, maybe change to be user configurable later
+//    let TEMP_MONTHLY_HIGH = [4, 6, 11, 15, 19, 23, 25, 24, 20, 15, 9, 5]
+//    let TEMP_November_HIGH = [13, 15, 12, 12, 8, 8, 8, 3, 6, 6, 9, 6, 5, 6, 4, 5, 2, 4, 3, 6, 7, 7, 8, 9, 9, 10, 9, 7, 4, 5]
+//    let TEMP_MONTHLY_LOW = [-1, 0, 3,  6, 10, 13,  15, 15, 12, 8,  3, 0]
+//    // Relative humidity https://www.worlddata.info/europe/switzerland/climate.php
+//    let Humidity_MONTHLY_HIGH = [80, 77, 71, 69, 71, 70, 68, 72, 76, 80, 80, 80]
+    
+    init() {
+        Wang_TEMP_SCALING_FACTOR = 0.02
+        Wang_Humidity_SCALING_FACTOR = 0.008
+    }
+    
+    init(Wang_TEMP_SCALING_FACTOR: Double, Wang_Humidity_SCALING_FACTOR: Double) {
+        self.Wang_TEMP_SCALING_FACTOR = Wang_TEMP_SCALING_FACTOR
+        self.Wang_Humidity_SCALING_FACTOR = Wang_Humidity_SCALING_FACTOR
+    }
 }
 
 struct CTCModel {
