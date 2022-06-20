@@ -114,7 +114,10 @@ struct ResultModel: Codable {
     let hospitalizationsNumber: [Double]
     let deathsNumber: [Double]
     
-    let totalInfections: Int
+    let infections: [Int]
+    let immune: Double
+    
+    let period: Int
 }
 
 enum GraphEnum: String, CaseIterable {
