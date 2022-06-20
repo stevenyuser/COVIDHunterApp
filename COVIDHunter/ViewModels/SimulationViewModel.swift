@@ -169,7 +169,12 @@ class SimulationViewModel: ObservableObject {
             //print("\(day), \(dayInYear), \(CRWphase), \(VariationInCRW), \(CRW_Harvard[CRWphase]), \(CRWfactor)")
             done = process_people(day: day, phase: phase, CRWfactor: CRWfactor) // main functions
             day+=1
-            currentDay += 1
+            
+            // update loading view ui
+            DispatchQueue.main.async { // must be done on main thread
+                self.currentDay += 1
+            }
+            
             if (day%30 == 0) {
                 month+=1 // start new month (note approximates all months as having 30 days)
                 if (month%12 == 0) {
@@ -509,12 +514,14 @@ class SimulationViewModel: ObservableObject {
         }
         
         // reset models to defaults
-        currentDay = 0
-        brazilModel = nil
-        harvardModel = nil
-        ctcModel = nil
-        wangModel = nil
-        modelInitalized = false
+        DispatchQueue.main.async { [self] in
+            currentDay = 0
+            brazilModel = nil
+            harvardModel = nil
+            ctcModel = nil
+            wangModel = nil
+            modelInitalized = false
+        }
         
         // initializing resultsModel
         return ResultModel(newlyInfected0: newlyInfected0, newlyInfected1: newlyInfected1, hospitalizationsNumber: hospitalizationsNumber, deathsNumber: deathsNumber, infections: infections, immune: Double(sick_person_ptr), period: day)
