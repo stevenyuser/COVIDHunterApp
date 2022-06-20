@@ -9,12 +9,15 @@ import Foundation
 import GameplayKit
 
 // contains the variables needed to run the simulation
+// TODO: Add progress bar view
+// TODO: make model initalized FALSE after finished running
+// TODO: Fix background added changes bug
 class SimulationViewModel: ObservableObject {
     
     // USER EDITABLE PARAMS
     
     // general params
-    @Published var START_MONTH = 1 // Start simulation on January 1st (use normal 1-12 representation for month here)
+    @Published var START_MONTH = 0 // Start simulation on January 1st
     @Published var NUM_DAYS = 730 // maximum number of days simulated (2 years)
     @Published var FIRST_INFECTION_DAY = 45 // Day first infection is imported into population.
     @Published var POPULATION = 8654622 // Population size to simulate (in this case Swiss population in 2020)
@@ -46,10 +49,10 @@ class SimulationViewModel: ObservableObject {
     @Published var FIRST_VACCINATION_DAY = 380 // note:  the model assumes that you gain immunity immediately after vaccination.   Starting 2 weeks later accounts for the fact that in reality you need to wait 2 weeks for partial immunity.
     @Published var VACCINATION_RATE = 0.3     // Percentage of population vaccinated per day
     
-    
+    @Published var currentDay: Int = 0 // make progress bar view = day/NUM_DAYS
     
     // model choice
-    @Published var selectedModel: ModelEnum = ModelEnum.CTC
+    @Published var selectedModel: ModelEnum = ModelEnum.CTC // default is CTC
     
     // all models require m and transition
     // M and transitions are linked together, each index represents a pair example: (0, 1) (0.45, 58)
@@ -75,6 +78,7 @@ class SimulationViewModel: ObservableObject {
     @Published var resultModel: ResultModel?
     
     @Published var isLoading: Bool = false
+    @Published var modelInitalized: Bool = false
     
     @MainActor
     func run() async  {
@@ -130,7 +134,7 @@ class SimulationViewModel: ObservableObject {
         var day = 0 // current day
         var dayInYear=0
         
-        var month = START_MONTH-1 // convert month to a 0-11 representation for internal use
+        var month = START_MONTH // convert month to a 0-11 representation for internal use
         // for inputs, the user should check off the plots the user wants (have default plots)
         // legend, have variants seperate
         print("Day, Uninfected, Daily Cases (Variant 1), Daily Cases (Variant 2), Daily Hospitalizations, Daily Deaths, Active Cases, Contagious, Immune, Total Vaccinated, asymptomatic Cases, Travelers, R0, Ce(t), M(t), R0*(1-M(t)), R0*Ce(t), R(t)=R0*Ce(t)*(1-M(t)), Observed R(t)")
@@ -165,6 +169,7 @@ class SimulationViewModel: ObservableObject {
             //print("\(day), \(dayInYear), \(CRWphase), \(VariationInCRW), \(CRW_Harvard[CRWphase]), \(CRWfactor)")
             done = process_people(day: day, phase: phase, CRWfactor: CRWfactor) // main functions
             day+=1
+            currentDay += 1
             if (day%30 == 0) {
                 month+=1 // start new month (note approximates all months as having 30 days)
                 if (month%12 == 0) {
@@ -297,7 +302,7 @@ class SimulationViewModel: ObservableObject {
             let Ct: Double
             let R0Mt: Double
             
-            // switch based on model
+            // switch processing mode based on model
             // probably don't force unwrap
             switch selectedModel {
             case ModelEnum.Brazil:
@@ -313,12 +318,9 @@ class SimulationViewModel: ObservableObject {
                 R0Mt = (day >= FIRST_INFECTION_DAY) ? R0_INTRINSIC * (1.0-M[phase]) * Ct : 0.0    //print("\(M[phase])")
 
             case ModelEnum.Harvard:
-                // ct is optional
-                Ct = 0.0
+                Ct = 0.0 // ct is optional
                 R0Mt = (day >= FIRST_INFECTION_DAY) ? Double(R0_INTRINSIC) * (1.0-M[phase]) * CRWfactor : 0.0
             }
-            
-            // switch based on model
             
             // Compute R0Mt which is R0 including both mitigation measures (1-M) and the temperature coefficient (Ct)
             // this is for Swiss, won't change based on Model, static
@@ -338,7 +340,7 @@ class SimulationViewModel: ObservableObject {
                 }
             }
             
-            // EVERYTHING DOWN HERE IS OKAY, DON'T DEPEND ON MODEL
+            // EVERYTHING DOWN HERE IS OKAY, DOESN'T DEPEND ON MODEL
             
             // compute true R value based on the new infections and spreaders in the past week.  This value is for informative purposes only (does not impact sim)
             let Rt:Double = weekly_spreaders != 0 ? Double(weekly_infections)/Double(weekly_spreaders) : 0.0
@@ -506,8 +508,15 @@ class SimulationViewModel: ObservableObject {
             }
         }
         
+        // reset models to defaults
+        currentDay = 0
+        brazilModel = nil
+        harvardModel = nil
+        ctcModel = nil
+        wangModel = nil
+        modelInitalized = false
         
         // initializing resultsModel
-        return ResultModel(newlyInfected0: newlyInfected0, newlyInfected1: newlyInfected1, hospitalizationsNumber: hospitalizationsNumber, deathsNumber: deathsNumber, totalInfections: total_infections)
+        return ResultModel(newlyInfected0: newlyInfected0, newlyInfected1: newlyInfected1, hospitalizationsNumber: hospitalizationsNumber, deathsNumber: deathsNumber, infections: infections, immune: Double(sick_person_ptr), period: day)
     }
 }
