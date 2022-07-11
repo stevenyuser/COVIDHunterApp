@@ -34,6 +34,12 @@ struct ContentView: View {
     
     private let months = ["January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "November", "December"]
     
+    private let formatter: NumberFormatter = {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        return formatter
+    }()
+    
     var body: some View {
         TabView {
             WelcomeScreen
@@ -87,7 +93,7 @@ extension ContentView {
         .padding(.horizontal)
         .padding(.top)
     }
-        
+    
     var GeneralParams: some View {
         VStack {
             HStack {
@@ -117,7 +123,7 @@ extension ContentView {
                     HStack {
                         Text("Number of days")
                         Spacer()
-                        TextField("Number of days", value: $vm.NUM_DAYS, formatter: NumberFormatter())
+                        TextField("Number of days", value: $vm.NUM_DAYS, formatter: formatter)
                             .multilineTextAlignment(.trailing)
                             .keyboardType(.numberPad)
                             .foregroundColor(Color.blue)
@@ -126,7 +132,7 @@ extension ContentView {
                     HStack {
                         Text("First infection day")
                         Spacer()
-                        TextField("First infection day", value: $vm.FIRST_INFECTION_DAY, formatter: NumberFormatter())
+                        TextField("First infection day", value: $vm.FIRST_INFECTION_DAY, formatter: formatter)
                             .multilineTextAlignment(.trailing)
                             .keyboardType(.numberPad)
                             .foregroundColor(Color.blue)
@@ -135,7 +141,7 @@ extension ContentView {
                     HStack {
                         Text("Minimum Incubation Days")
                         Spacer()
-                        TextField("MIN_INCUBATION_DAYS", value: $vm.MIN_INCUBATION_DAYS, formatter: NumberFormatter())
+                        TextField("MIN_INCUBATION_DAYS", value: $vm.MIN_INCUBATION_DAYS, formatter: formatter)
                             .multilineTextAlignment(.trailing)
                             .keyboardType(.numberPad)
                             .foregroundColor(Color.blue)
@@ -144,7 +150,7 @@ extension ContentView {
                     HStack {
                         Text("Maximum Incubation Days")
                         Spacer()
-                        TextField("MAX_INCUBATION_DAYS", value: $vm.MAX_INCUBATION_DAYS, formatter: NumberFormatter())
+                        TextField("MAX_INCUBATION_DAYS", value: $vm.MAX_INCUBATION_DAYS, formatter: formatter)
                             .multilineTextAlignment(.trailing)
                             .keyboardType(.numberPad)
                             .foregroundColor(Color.blue)
@@ -155,7 +161,7 @@ extension ContentView {
                     HStack {
                         Text("Population")
                         Spacer()
-                        TextField("POPULATION", value: $vm.POPULATION, formatter: NumberFormatter())
+                        TextField("POPULATION", value: $vm.POPULATION, formatter: formatter)
                             .multilineTextAlignment(.trailing)
                             .keyboardType(.numberPad)
                             .foregroundColor(Color.blue)
@@ -164,7 +170,7 @@ extension ContentView {
                     HStack {
                         Text("Maximum Victims")
                         Spacer()
-                        TextField("MAX_VICTIMS", value: $vm.MAX_VICTIMS, formatter: NumberFormatter())
+                        TextField("MAX_VICTIMS", value: $vm.MAX_VICTIMS, formatter: formatter)
                             .multilineTextAlignment(.trailing)
                             .keyboardType(.numberPad)
                             .foregroundColor(Color.blue)
@@ -175,7 +181,7 @@ extension ContentView {
                     HStack {
                         Text("Travel Sick Rate (%)")
                         Spacer()
-                        TextField("TRAVEL_SICK_RATE", value: $vm.TRAVEL_SICK_RATE, formatter: NumberFormatter())
+                        TextField("TRAVEL_SICK_RATE", value: $vm.TRAVEL_SICK_RATE, formatter: formatter)
                             .multilineTextAlignment(.trailing)
                             .keyboardType(.numberPad)
                             .foregroundColor(Color.blue)
@@ -184,7 +190,7 @@ extension ContentView {
                     HStack {
                         Text("Travelers Per Day")
                         Spacer()
-                        TextField("TRAVELERS_PER_DAY", value: $vm.TRAVELERS_PER_DAY, formatter: NumberFormatter())
+                        TextField("TRAVELERS_PER_DAY", value: $vm.TRAVELERS_PER_DAY, formatter: formatter)
                             .multilineTextAlignment(.trailing)
                             .keyboardType(.numberPad)
                             .foregroundColor(Color.blue)
@@ -193,7 +199,7 @@ extension ContentView {
                     HStack {
                         Text("First Travel Day")
                         Spacer()
-                        TextField("FIRST_TRAVEL_DAY", value: $vm.FIRST_TRAVEL_DAY, formatter: NumberFormatter())
+                        TextField("FIRST_TRAVEL_DAY", value: $vm.FIRST_TRAVEL_DAY, formatter: formatter)
                             .multilineTextAlignment(.trailing)
                             .keyboardType(.numberPad)
                             .foregroundColor(Color.blue)
@@ -202,7 +208,7 @@ extension ContentView {
                     HStack {
                         Text("Last Travel Day")
                         Spacer()
-                        TextField("LAST_TRAVEL_DAY", value: $vm.LAST_TRAVEL_DAY, formatter: NumberFormatter())
+                        TextField("LAST_TRAVEL_DAY", value: $vm.LAST_TRAVEL_DAY, formatter: formatter)
                             .multilineTextAlignment(.trailing)
                             .keyboardType(.numberPad)
                             .foregroundColor(Color.blue)
@@ -213,43 +219,43 @@ extension ContentView {
                     HStack {
                         Text("Hospitalizations-to-cases ratio")
                         Spacer()
-                        TextField("Hospitalizations-to-cases ratio", value: $vm.X, formatter: NumberFormatter())
+                        TextField("Hospitalizations-to-cases ratio", value: $vm.X, formatter: formatter)
                             .multilineTextAlignment(.trailing)
-                            .keyboardType(.numberPad)
+                            .keyboardType(.decimalPad)
                             .foregroundColor(Color.blue)
                     }
                     
                     HStack {
                         Text("Deaths-to-cases ratio")
                         Spacer()
-                        TextField("Deaths-to-cases ratio", value: $vm.Y, formatter: NumberFormatter())
+                        TextField("Deaths-to-cases ratio", value: $vm.Y, formatter: formatter)
                             .multilineTextAlignment(.trailing)
-                            .keyboardType(.numberPad)
+                            .keyboardType(.decimalPad)
                             .foregroundColor(Color.blue)
                     }
                     
                     HStack {
                         Text("R0 Intrinsic")
                         Spacer()
-                        TextField("R0_INTRINSIC", value: $vm.R0_INTRINSIC, formatter: NumberFormatter())
+                        TextField("R0_INTRINSIC", value: $vm.R0_INTRINSIC, formatter: formatter)
                             .multilineTextAlignment(.trailing)
-                            .keyboardType(.numberPad)
+                            .keyboardType(.decimalPad)
                             .foregroundColor(Color.blue)
                     }
                     
                     HStack {
                         Text("R0 Intrinsic Variant")
                         Spacer()
-                        TextField("R0_INTRINSIC_VARIANT1", value: $vm.R0_INTRINSIC_VARIANT1, formatter: NumberFormatter())
+                        TextField("R0_INTRINSIC_VARIANT1", value: $vm.R0_INTRINSIC_VARIANT1, formatter: formatter)
                             .multilineTextAlignment(.trailing)
-                            .keyboardType(.numberPad)
+                            .keyboardType(.decimalPad)
                             .foregroundColor(Color.blue)
                     }
                     
                     HStack {
                         Text("Asymptomatic Percentage")
                         Spacer()
-                        TextField("ASYMPTOMATIC_PERCENTAGE", value: $vm.ASYMPTOMATIC_PERCENTAGE, formatter: NumberFormatter())
+                        TextField("ASYMPTOMATIC_PERCENTAGE", value: $vm.ASYMPTOMATIC_PERCENTAGE, formatter: formatter)
                             .multilineTextAlignment(.trailing)
                             .keyboardType(.numberPad)
                             .foregroundColor(Color.blue)
@@ -258,7 +264,7 @@ extension ContentView {
                     HStack {
                         Text("Imported Mutation Rate (%)")
                         Spacer()
-                        TextField("IMPORTED_MUTATION_RATE", value: $vm.IMPORTED_MUTATION_RATE, formatter: NumberFormatter())
+                        TextField("IMPORTED_MUTATION_RATE", value: $vm.IMPORTED_MUTATION_RATE, formatter: formatter)
                             .multilineTextAlignment(.trailing)
                             .keyboardType(.numberPad)
                             .foregroundColor(Color.blue)
@@ -267,7 +273,7 @@ extension ContentView {
                     HStack {
                         Text("R0 Asymptomatic")
                         Spacer()
-                        TextField("R0_ASYMPTOMATIC", value: $vm.R0_ASYMPTOMATIC, formatter: NumberFormatter())
+                        TextField("R0_ASYMPTOMATIC", value: $vm.R0_ASYMPTOMATIC, formatter: formatter)
                             .multilineTextAlignment(.trailing)
                             .keyboardType(.numberPad)
                             .foregroundColor(Color.blue)
@@ -276,7 +282,7 @@ extension ContentView {
                     HStack {
                         Text("R0 Asymptomatic Variant")
                         Spacer()
-                        TextField("R0_ASYMPTOMATIC_VARIANT1", value: $vm.R0_ASYMPTOMATIC_VARIANT1, formatter: NumberFormatter())
+                        TextField("R0_ASYMPTOMATIC_VARIANT1", value: $vm.R0_ASYMPTOMATIC_VARIANT1, formatter: formatter)
                             .multilineTextAlignment(.trailing)
                             .keyboardType(.numberPad)
                             .foregroundColor(Color.blue)
@@ -291,7 +297,7 @@ extension ContentView {
                     HStack {
                         Text("First Vaccination Day")
                         Spacer()
-                        TextField("FIRST_VACCINATION_DAY", value: $vm.FIRST_VACCINATION_DAY, formatter: NumberFormatter())
+                        TextField("FIRST_VACCINATION_DAY", value: $vm.FIRST_VACCINATION_DAY, formatter: formatter)
                             .multilineTextAlignment(.trailing)
                             .keyboardType(.numberPad)
                             .foregroundColor(vm.ENABLE_VACCINATIONS ? Color.blue : Color.gray)
@@ -301,7 +307,7 @@ extension ContentView {
                     HStack {
                         Text("Vaccination Rate")
                         Spacer()
-                        TextField("VACCINATION_RATE", value: $vm.VACCINATION_RATE, formatter: NumberFormatter())
+                        TextField("VACCINATION_RATE", value: $vm.VACCINATION_RATE, formatter: formatter)
                             .multilineTextAlignment(.trailing)
                             .keyboardType(.numberPad)
                             .foregroundColor(vm.ENABLE_VACCINATIONS ? Color.blue : Color.gray)
@@ -346,27 +352,27 @@ extension ContentView {
                         HStack {
                             Text("Temperature Scaling Factor")
                             Spacer()
-                            TextField("TEMP_SCALING_FACTOR", value: $TEMP_SCALING_FACTOR_CTC, formatter: NumberFormatter())
+                            TextField("TEMP_SCALING_FACTOR", value: $TEMP_SCALING_FACTOR_CTC, formatter: formatter)
                                 .multilineTextAlignment(.trailing)
-                                .keyboardType(.numberPad)
+                                .keyboardType(.decimalPad)
                                 .foregroundColor(Color.blue)
                         }
                         
                         HStack {
                             Text("Temperature Scaling Floor")
                             Spacer()
-                            TextField("TEMP_SCALING_FLOOR", value: $TEMP_SCALING_FLOOR_CTC, formatter: NumberFormatter())
+                            TextField("TEMP_SCALING_FLOOR", value: $TEMP_SCALING_FLOOR_CTC, formatter: formatter)
                                 .multilineTextAlignment(.trailing)
-                                .keyboardType(.numberPad)
+                                .keyboardType(.decimalPad)
                                 .foregroundColor(Color.blue)
                         }
                         
                         HStack {
                             Text("Temperature Scaling Ceiling")
                             Spacer()
-                            TextField("TEMP_SCALING_CEILING", value: $TEMP_SCALING_CEILING_CTC, formatter: NumberFormatter())
+                            TextField("TEMP_SCALING_CEILING", value: $TEMP_SCALING_CEILING_CTC, formatter: formatter)
                                 .multilineTextAlignment(.trailing)
-                                .keyboardType(.numberPad)
+                                .keyboardType(.decimalPad)
                                 .foregroundColor(Color.blue)
                         }
                         
@@ -379,38 +385,43 @@ extension ContentView {
                         .disabled(vm.modelInitalized)
                     }
                     
-                // requires a way to edit list
+                    // requires a way to edit list
                 case ModelEnum.Harvard:
                     Section {
-                        Text("Harvard model")
+                        Button {
+                            
+                        } label: {
+                            Text("Edit CRW Values and Transitions")
+                        }
+
                     }
-                
+                    
                 case ModelEnum.Brazil:
                     Section {
                         HStack {
                             Text("Temperature Scaling Factor")
                             Spacer()
-                            TextField("TEMP_SCALING_FACTOR", value: $TEMP_SCALING_FACTOR, formatter: NumberFormatter())
+                            TextField("TEMP_SCALING_FACTOR", value: $TEMP_SCALING_FACTOR, formatter: formatter)
                                 .multilineTextAlignment(.trailing)
-                                .keyboardType(.numberPad)
+                                .keyboardType(.decimalPad)
                                 .foregroundColor(Color.blue)
                         }
                         
                         HStack {
                             Text("Temperature Scaling Floor")
                             Spacer()
-                            TextField("TEMP_SCALING_FLOOR", value: $TEMP_SCALING_FLOOR, formatter: NumberFormatter())
+                            TextField("TEMP_SCALING_FLOOR", value: $TEMP_SCALING_FLOOR, formatter: formatter)
                                 .multilineTextAlignment(.trailing)
-                                .keyboardType(.numberPad)
+                                .keyboardType(.decimalPad)
                                 .foregroundColor(Color.blue)
                         }
                         
                         HStack {
                             Text("Temperature Scaling Ceiling")
                             Spacer()
-                            TextField("TEMP_SCALING_CEILING", value: $TEMP_SCALING_CEILING, formatter: NumberFormatter())
+                            TextField("TEMP_SCALING_CEILING", value: $TEMP_SCALING_CEILING, formatter: formatter)
                                 .multilineTextAlignment(.trailing)
-                                .keyboardType(.numberPad)
+                                .keyboardType(.decimalPad)
                                 .foregroundColor(Color.blue)
                         }
                         
@@ -427,18 +438,18 @@ extension ContentView {
                         HStack {
                             Text("Temperature Scaling Factor")
                             Spacer()
-                            TextField("Wang_TEMP_SCALING_FACTOR", value: $Wang_TEMP_SCALING_FACTOR, formatter: NumberFormatter())
+                            TextField("Wang_TEMP_SCALING_FACTOR", value: $Wang_TEMP_SCALING_FACTOR, format: .number)
                                 .multilineTextAlignment(.trailing)
-                                .keyboardType(.numberPad)
+                                .keyboardType(.decimalPad)
                                 .foregroundColor(Color.blue)
                         }
                         
                         HStack {
                             Text("Humidity Scaling Factor")
                             Spacer()
-                            TextField("Wang_Humidity_SCALING_FACTOR", value: $Wang_Humidity_SCALING_FACTOR, formatter: NumberFormatter())
+                            TextField("Wang_Humidity_SCALING_FACTOR", value: $Wang_Humidity_SCALING_FACTOR, formatter: formatter)
                                 .multilineTextAlignment(.trailing)
-                                .keyboardType(.numberPad)
+                                .keyboardType(.decimalPad)
                                 .foregroundColor(Color.blue)
                         }
                         
