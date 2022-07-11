@@ -49,8 +49,6 @@ class SimulationViewModel: ObservableObject {
     @Published var FIRST_VACCINATION_DAY = 380 // note:  the model assumes that you gain immunity immediately after vaccination.   Starting 2 weeks later accounts for the fact that in reality you need to wait 2 weeks for partial immunity.
     @Published var VACCINATION_RATE = 0.3     // Percentage of population vaccinated per day
     
-    @Published var currentDay: Int = 0 // make progress bar view = day/NUM_DAYS
-    
     // model choice
     @Published var selectedModel: ModelEnum = ModelEnum.CTC // default is CTC
     
@@ -79,6 +77,9 @@ class SimulationViewModel: ObservableObject {
     
     @Published var isLoading: Bool = false
     @Published var modelInitalized: Bool = false
+    
+    // loading variables
+    @Published var currentDay: Int = 0 // make progress bar view = day/NUM_DAYS
     
     @MainActor
     func run() async  {
@@ -481,8 +482,9 @@ class SimulationViewModel: ObservableObject {
             hospitalizationsNumber.append((X * Double(newly_infected[0]+newly_infected[1])))
             deathsNumber.append((Y * Double(newly_infected[0]+newly_infected[1])))
             
-            print("\(day+1), \(POPULATION-free_person_ptr), \(newly_infected[0]), \(newly_infected[1]), \(hospitalizations_number), \(deaths_number), \(infected_original), \(contagious), \(sick_person_ptr+immune), \(total_vaccinated),  \(asymptomatic), \(total_travelers), \(intrinsic_r_string), \(C_string), \(M_string), \(phase_string), \(temp_r_string), \(phase_temp_r_string), \(actual_r_string)")
-            print("DEBUG: day - \(day+1), infections - \(newly_infected[0] + newly_infected[1])")
+//            print("\(day+1), \(POPULATION-free_person_ptr), \(newly_infected[0]), \(newly_infected[1]), \(hospitalizations_number), \(deaths_number), \(infected_original), \(contagious), \(sick_person_ptr+immune), \(total_vaccinated),  \(asymptomatic), \(total_travelers), \(intrinsic_r_string), \(C_string), \(M_string), \(phase_string), \(temp_r_string), \(phase_temp_r_string), \(actual_r_string)")
+//            print("DEBUG: day - \(day+1), infections - \(newly_infected[0] + newly_infected[1])")
+            print("(\(day+1), \(newly_infected[0] + newly_infected[1]))")
             
             //print("Day, Uninfected, new infections base, active infections, contagious, asymptomatic, immune, travelers, R0i (intrinsic R0), R0i*Ct (intrinsic including migitation), R0i*Ct (temperature adjusted R0), R0i*Ct*(1-M) (temp adjusted R0 including mitigation), Rt (observed R number), new infections variant, vaccations")
             //print("\(day), \(POPULATION-free_person_ptr), \(newly_infected[0]), \(infected_original), \(contagious), \(asymptomatic), \(sick_person_ptr+immune), \(total_travelers), \(intrinsic_r_string), \(phase_string), \(temp_r_string), \(phase_temp_r_string), \(actual_r_string), \(newly_infected[1]), \(total_vaccinated)")

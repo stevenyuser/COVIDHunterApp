@@ -24,7 +24,7 @@ struct ResultsView: View {
                     deaths
                 }.tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
             }
-            .frame(height:375)
+            .frame(height:500)
             
             Text("Overview")
                 .font(.title3)

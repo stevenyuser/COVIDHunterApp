@@ -18,6 +18,9 @@ struct ContentView: View {
     @State private var showModelInfoView: Bool = false
     @State private var showResultsView: Bool = false
     
+    @State private var showHarvardEditView: Bool = false
+    @State private var showMTEditView: Bool = false
+    
     // ctc
     @State var TEMP_SCALING_FACTOR_CTC: Double = 0.0367
     @State var TEMP_SCALING_FLOOR_CTC: Double = 1.0
@@ -389,7 +392,9 @@ extension ContentView {
                 case ModelEnum.Harvard:
                     Section {
                         Button {
-                            
+                            vm.harvardModel = HarvardModel()
+                            showHarvardEditView = true
+                            vm.modelInitalized = true
                         } label: {
                             Text("Edit CRW Values and Transitions")
                         }
@@ -475,6 +480,9 @@ extension ContentView {
         .sheet(isPresented: $showModelInfoView, content: {
             ModelInfoView()
         })
+        .sheet(isPresented: $showHarvardEditView) {
+            HarvardEditView()
+        }
     }
     
     
