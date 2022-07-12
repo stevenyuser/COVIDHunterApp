@@ -54,8 +54,10 @@ class SimulationViewModel: ObservableObject {
     
     // all models require m and transition
     // M and transitions are linked together, each index represents a pair example: (0, 1) (0.45, 58)
-    var M =           [0, 0.45, 0.7,  0.7, 0.65, 0.63, 0.5, 0.355, 0.6, 0.7, 0.7, 0.71, 0.73, 0.73, 0.6, 0.35, 0.6]
-    var TRANSITIONS = [1,   58,  77,  118,  132,  151, 174, 245, 284, 303, 320,  330,  356,  387, 425,  475,  505, 9999] // Day
+    
+    // default is CTC 100%
+    @Published var selectedMTModel: MTEnum = MTEnum.CTC100
+    @Published var mtModel: MTModel = MTEnum.CTC100.model
     // add the 9999 at the end of the code, after the user adds params
     
     
@@ -144,7 +146,7 @@ class SimulationViewModel: ObservableObject {
         
         while (!done && day<NUM_DAYS) {
             // Check for a transition to a new phase of behavior
-            if (day==TRANSITIONS[phase+1]) {
+            if (day==mtModel.TRANSITIONS[phase+1]) {
                 phase+=1
             }
             // Check for a transition to a new CRW
@@ -313,27 +315,27 @@ class SimulationViewModel: ObservableObject {
             switch selectedModel {
             case ModelEnum.Brazil:
                 Ct = compute_temperature_scaling(month: month, model: brazilModel ?? BrazilModel())
-                R0Mt = (day >= FIRST_INFECTION_DAY) ? R0_INTRINSIC * (1.0-M[phase]) * Ct : 0.0    //print("\(M[phase])")
+                R0Mt = (day >= FIRST_INFECTION_DAY) ? R0_INTRINSIC * (1.0-mtModel.M[phase]) * Ct : 0.0    //print("\(M[phase])")
 
             case ModelEnum.Wang:
                 Ct = compute_Wang_scaling(month: month, model: wangModel ?? WangModel())
-                R0Mt = (day >= FIRST_INFECTION_DAY) ? R0_INTRINSIC * (1.0-M[phase]) * Ct : 0.0    //print("\(M[phase])")
+                R0Mt = (day >= FIRST_INFECTION_DAY) ? R0_INTRINSIC * (1.0-mtModel.M[phase]) * Ct : 0.0    //print("\(M[phase])")
 
             case ModelEnum.CTC:
                 Ct = compute_temperature_scaling_CTC(month: month, day: day, model: ctcModel ?? CTCModel())
-                R0Mt = (day >= FIRST_INFECTION_DAY) ? R0_INTRINSIC * (1.0-M[phase]) * Ct : 0.0    //print("\(M[phase])")
+                R0Mt = (day >= FIRST_INFECTION_DAY) ? R0_INTRINSIC * (1.0-mtModel.M[phase]) * Ct : 0.0    //print("\(M[phase])")
 
             case ModelEnum.Harvard:
                 Ct = 0.0 // ct is optional
-                R0Mt = (day >= FIRST_INFECTION_DAY) ? Double(R0_INTRINSIC) * (1.0-M[phase]) * CRWfactor : 0.0
+                R0Mt = (day >= FIRST_INFECTION_DAY) ? Double(R0_INTRINSIC) * (1.0-mtModel.M[phase]) * CRWfactor : 0.0
                 CRWfactor ~= Ct
             }
             
             // Compute R0Mt which is R0 including both mitigation measures (1-M) and the temperature coefficient (Ct)
             // this is for Swiss, won't change based on Model, static
-            let R0Mt_asymptomatic = (day >= FIRST_INFECTION_DAY) ? R0_ASYMPTOMATIC * (1.0-M[phase]) * Ct : 0.0
-            let R0Mt_variant1 = (day >= FIRST_VARIANT_DAY) ? R0_INTRINSIC_VARIANT1 * (1.0-M[phase]) * Ct : 0.0
-            let R0Mt_asymptomatic_variant1 = (day >= FIRST_VARIANT_DAY) ? R0_ASYMPTOMATIC_VARIANT1 * (1.0-M[phase]) * Ct : 0.0
+            let R0Mt_asymptomatic = (day >= FIRST_INFECTION_DAY) ? R0_ASYMPTOMATIC * (1.0-mtModel.M[phase]) * Ct : 0.0
+            let R0Mt_variant1 = (day >= FIRST_VARIANT_DAY) ? R0_INTRINSIC_VARIANT1 * (1.0-mtModel.M[phase]) * Ct : 0.0
+            let R0Mt_asymptomatic_variant1 = (day >= FIRST_VARIANT_DAY) ? R0_ASYMPTOMATIC_VARIANT1 * (1.0-mtModel.M[phase]) * Ct : 0.0
             
             // compute weekly victims and spreaders based on last 7 days
             weekly_victims=0
@@ -469,11 +471,11 @@ class SimulationViewModel: ObservableObject {
             let hospitalizations_number = String(format: "%2.3f", X * Double(newly_infected[0]+newly_infected[1]))
             let deaths_number = String(format: "%2.3f", Y * Double(newly_infected[0]+newly_infected[1]))
             let intrinsic_r_string = String(format: "%2.3f", R0_INTRINSIC)
-            let phase_string = String(format: "%2.3f", R0_INTRINSIC*(1.0-M[phase]))
+            let phase_string = String(format: "%2.3f", R0_INTRINSIC*(1.0-mtModel.M[phase]))
             let phase_temp_r_string = String(format: "%2.3f", R0Mt)
             let temp_r_string = String(format: "%2.3", R0_INTRINSIC*Ct)
             let actual_r_string = String(format: "%2.3f", Rt)
-            let M_string = String(format: "%2.3f", M[phase])
+            let M_string = String(format: "%2.3f", mtModel.M[phase])
             let C_string = String(format: "%2.3f", Ct)
             
             // print output per day in a graph, plot in a graph, values changed based on model
@@ -528,6 +530,6 @@ class SimulationViewModel: ObservableObject {
         }
         
         // initializing resultsModel
-        return ResultModel(newlyInfected0: newlyInfected0, newlyInfected1: newlyInfected1, hospitalizationsNumber: hospitalizationsNumber, deathsNumber: deathsNumber, infections: infections, immune: Double(sick_person_ptr), period: day, model: selectedModel)
+        return ResultModel(newlyInfected0: newlyInfected0, newlyInfected1: newlyInfected1, hospitalizationsNumber: hospitalizationsNumber, deathsNumber: deathsNumber, infections: infections, immune: Double(sick_person_ptr), period: day, totalInfected0: total_infections, totalInfected1: total_infections_variant, model: selectedModel)
     }
 }

@@ -77,7 +77,7 @@ struct ChartView: View {
 
 struct ChartView_Previews: PreviewProvider {
     static var previews: some View {
-        ChartView(results: ResultModel.init(newlyInfected0: [1,1,1,1,1,1,7,1,1,0,1,1,1,1,1,1,7,1,1,0], newlyInfected1: [1,23,2,4,34,323,2,3,500000,10,1,1,1,1,1,1,7,1,1,0], hospitalizationsNumber: [1,23,2,4,34,323,2,3,0,10,1,23,2,4,34,323,2,3,0,10], deathsNumber: [1,23,2,4,34,323,2,3,0,10,1,23,2,4,34,323,2,3,0,10], infections: [1,23,2,40043,34000,323,2,3,50000,10390,1,1,1,1,1,1,70000,1,1,0], immune: 50, period: 20, model: .Harvard), choice: .infections)
+        ChartView(results: ResultModel.init(newlyInfected0: [1,1,1,1,1,1,7,1,1,0,1,1,1,1,1,1,7,1,1,0], newlyInfected1: [1,23,2,4,34,323,2,3,500000,10,1,1,1,1,1,1,7,1,1,0], hospitalizationsNumber: [1,23,2,4,34,323,2,3,0,10,1,23,2,4,34,323,2,3,0,10], deathsNumber: [1,23,2,4,34,323,2,3,0,10,1,23,2,4,34,323,2,3,0,10], infections: [1,23,2,40043,34000,323,2,3,50000,10390,1,1,1,1,1,1,70000,1,1,0], immune: 50, period: 20, totalInfected0: 100, totalInfected1: 100, model: .Harvard), choice: .infections)
     }
 }
 

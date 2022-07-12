@@ -43,7 +43,7 @@ struct ResultsView: View {
 
 struct ResultsView_Previews: PreviewProvider {
     static var previews: some View {
-        ResultsView(results: ResultModel(newlyInfected0: [Int](repeating: 10, count: 730), newlyInfected1: [Int](repeating: 10, count: 730), hospitalizationsNumber: [Double](repeating: 10, count: 730), deathsNumber: [Double](repeating: 10, count: 730), infections: [0, 10, 10, 10], immune: 50, period: 730, model: .Harvard))
+        ResultsView(results: ResultModel(newlyInfected0: [Int](repeating: 10, count: 730), newlyInfected1: [Int](repeating: 10, count: 730), hospitalizationsNumber: [Double](repeating: 10, count: 730), deathsNumber: [Double](repeating: 10, count: 730), infections: [0, 10, 10, 10], immune: 50, period: 730, totalInfected0: 100, totalInfected1: 100, model: .Harvard))
     }
 }
 
@@ -78,7 +78,7 @@ extension ResultsView {
                 VStack(alignment: .leading) {
                     Text("Total Infections")
                         .font(.subheadline)
-                    Text("\(results.infections.reduce(0, +))")
+                    Text("\(results.totalInfected0 + results.totalInfected1)")
                         .font(.headline)
                 }
                 

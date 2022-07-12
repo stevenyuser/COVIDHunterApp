@@ -470,8 +470,9 @@ extension ContentView {
                 
                 Section {
                     Button(action: {
-                        vm.M = [0, 0.45, 0.7,  0.7, 0.65, 0.63, 0.5, 0.355, 0.6, 0.7, 0.7, 0.71, 0.73, 0.73, 0.6, 0.35, 0.6]
-                        vm.TRANSITIONS = [1,   58,  77,  118,  132,  151, 174, 245, 284, 303, 320,  330,  356,  387, 425,  475,  505]
+                        vm.selectedMTModel = MTEnum.CTC100
+                        vm.mtModel = MTEnum.CTC100.model
+                        
                         showMTEditView.toggle()
                     }, label: {
                         Text("Edit M and Transitions")
@@ -497,7 +498,7 @@ extension ContentView {
                 Button(action: {
                     Task {
                         print("Append 9999...")
-//                        vm.TRANSITIONS.append(9999)
+                        vm.mtModel.TRANSITIONS.append(9999)
                         print("Appended")
                         await vm.run()
                         print("finished running")

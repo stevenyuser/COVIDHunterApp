@@ -145,6 +145,9 @@ struct ResultModel: Codable {
     
     let period: Int
     
+    let totalInfected0: Int
+    let totalInfected1: Int
+    
     let model: ModelEnum
 }
 
@@ -156,24 +159,27 @@ enum GraphEnum: String, CaseIterable {
 
 struct MTModel: Codable {
     var M: [Double]
-    var TRANSITIONS: [Int]
+    var TRANSITIONS: [Int] // Day
 }
 
-enum MTEnum {
-    case Brazil100
-    case Brazil10
+enum MTEnum: String, CaseIterable, Identifiable {
+    var id: MTEnum { self }
     
-    case CTC100
-    case CTC50
-    case CTC50_notemp
-    case CTC10
     
-    case CRW100
-    case CRW50
-    case CRW10
+    case Brazil100 = "Brazil 100%"
+    case Brazil10 = "Brazil 10%"
     
-    case Wang100
-    case Wang10
+    case CTC100 = "CTC 100%"
+    case CTC50 = "CTC 50%"
+    case CTC50_notemp = "CTC 50% - no temp."
+    case CTC10 = "CTC 10%"
+    
+    case CRW100 = "CRW 100%"
+    case CRW50 = "CRW 50%"
+    case CRW10 = "CRW 10%"
+    
+    case Wang100 = "Wang 100%"
+    case Wang10 = "Wang 10%"
     
     var model: MTModel {
         switch self {
