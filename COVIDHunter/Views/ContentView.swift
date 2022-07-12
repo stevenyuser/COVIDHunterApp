@@ -71,27 +71,66 @@ struct ContentView_Previews: PreviewProvider {
 
 extension ContentView {
     var WelcomeScreen: some View {
-        VStack(alignment: .leading) {
-            Text("Welcome to COVIDHunter!")
-                .font(.title2)
-                .fontWeight(.bold)
-            Spacer()
-            Text("Initially, this simulation model has the parameters set to Switzerland.")
-            Spacer()
-            Text("Please customize the parameters to your liking and then press simulate in the end.")
-            Spacer()
-            Text("Please click info on any of the pages for more information on the parameters")
+        VStack(alignment: .leading, spacing: 10) {
             Group {
-                Spacer()
-                Spacer()
-                Spacer()
-                Spacer()
-                Spacer()
-                Spacer()
-                Spacer()
-                Spacer()
-                Spacer()
+                Text("Welcome to COVIDHunter!")
+                    .font(.title2)
+                    .fontWeight(.bold)
+                Text("Initially, this simulation model has the parameters set to Switzerland.")
+                Text("Please customize the parameters to your liking and then press simulate in the end.")
+                Text("Please click info on any of the pages for more information on the parameters.")
             }
+            
+            Divider()
+            
+            Spacer()
+            
+            Group {
+                Link(destination: URL(string: "https://github.com/CMU-SAFARI/COVIDHunter")!) {
+                    Label("COVIDHunter Model Source Code", systemImage: "link")
+                }
+                .font(.headline)
+                .frame(maxWidth: .infinity)
+                .padding()
+                .foregroundColor(Color.white)
+                .background(Color.blue)
+                .cornerRadius(10)
+                
+                Link(destination: URL(string: "https://arxiv.org/abs/2206.06692")!) {
+                    Label("COVIDHunter Arxiv Paper", systemImage: "link")
+                }
+                .font(.headline)
+                .frame(maxWidth: .infinity)
+                .padding()
+                .foregroundColor(Color.white)
+                .background(Color.blue)
+                .cornerRadius(10)
+                
+                
+                Link(destination: URL(string: "https://safari.ethz.ch/")!) {
+                    Label("SAFARI Research Group", systemImage: "link")
+                }
+                .font(.headline)
+                .frame(maxWidth: .infinity)
+                .padding()
+                .foregroundColor(Color.white)
+                .background(Color.blue)
+                .cornerRadius(10)
+            }
+            
+            Spacer()
+            
+            //            Group {
+            //                Spacer()
+            //                Spacer()
+            //                Spacer()
+            //                Spacer()
+            //                Spacer()
+            //                Spacer()
+            //                Spacer()
+            //                Spacer()
+            //                Spacer()
+            //            }
         }
         .padding(.horizontal)
         .padding(.top)
@@ -398,7 +437,7 @@ extension ContentView {
                         } label: {
                             Text("Initalize and Edit CRW Values and Transitions")
                         }
-
+                        
                     }
                     
                 case ModelEnum.Brazil:
@@ -518,10 +557,10 @@ extension ContentView {
             })
             
             if(vm.isLoading) {
-//                ProgressView("\(vm.currentDay) - Calculating")
-//                    .padding()
-//                    .background(Color.secondary)
-//                    .cornerRadius(10)
+                //                ProgressView("\(vm.currentDay) - Calculating")
+                //                    .padding()
+                //                    .background(Color.secondary)
+                //                    .cornerRadius(10)
                 
                 ProgressView("Calculating...", value: Double(vm.currentDay), total: Double(vm.NUM_DAYS))
                     .padding()
