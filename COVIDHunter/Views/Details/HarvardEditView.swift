@@ -12,9 +12,7 @@ struct HarvardEditView: View {
     
     @State var valueArray: [String] = [String](repeating: "", count: 49)
     @State var transitionArray: [String] = [String](repeating: "", count: 49)
-    
-    @State private var showAddItemView: Bool = false
-    
+        
     var body: some View {
         NavigationView {
             VStack {
@@ -27,6 +25,7 @@ struct HarvardEditView: View {
                                 .padding(.horizontal)
                         }
                         .font(.subheadline)
+                        
                         ForEach(0..<valueArray.count, id: \.self) { index in
                             HStack {
                                 TextField("Value", text: $valueArray[index])

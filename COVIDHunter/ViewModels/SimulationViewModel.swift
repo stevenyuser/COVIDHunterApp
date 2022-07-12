@@ -54,8 +54,8 @@ class SimulationViewModel: ObservableObject {
     
     // all models require m and transition
     // M and transitions are linked together, each index represents a pair example: (0, 1) (0.45, 58)
-    let M =           [0, 0.45, 0.7,  0.7, 0.65, 0.63, 0.5, 0.355, 0.6, 0.7, 0.7, 0.71, 0.73, 0.73, 0.6, 0.35, 0.6]
-    let TRANSITIONS = [1,   58,  77,  118,  132,  151, 174, 245, 284, 303, 320,  330,  356,  387, 425,  475,  505, 9999] // Day
+    var M =           [0, 0.45, 0.7,  0.7, 0.65, 0.63, 0.5, 0.355, 0.6, 0.7, 0.7, 0.71, 0.73, 0.73, 0.6, 0.35, 0.6]
+    var TRANSITIONS = [1,   58,  77,  118,  132,  151, 174, 245, 284, 303, 320,  330,  356,  387, 425,  475,  505, 9999] // Day
     // add the 9999 at the end of the code, after the user adds params
     
     
@@ -326,6 +326,7 @@ class SimulationViewModel: ObservableObject {
             case ModelEnum.Harvard:
                 Ct = 0.0 // ct is optional
                 R0Mt = (day >= FIRST_INFECTION_DAY) ? Double(R0_INTRINSIC) * (1.0-M[phase]) * CRWfactor : 0.0
+                CRWfactor ~= Ct
             }
             
             // Compute R0Mt which is R0 including both mitigation measures (1-M) and the temperature coefficient (Ct)
@@ -527,6 +528,6 @@ class SimulationViewModel: ObservableObject {
         }
         
         // initializing resultsModel
-        return ResultModel(newlyInfected0: newlyInfected0, newlyInfected1: newlyInfected1, hospitalizationsNumber: hospitalizationsNumber, deathsNumber: deathsNumber, infections: infections, immune: Double(sick_person_ptr), period: day)
+        return ResultModel(newlyInfected0: newlyInfected0, newlyInfected1: newlyInfected1, hospitalizationsNumber: hospitalizationsNumber, deathsNumber: deathsNumber, infections: infections, immune: Double(sick_person_ptr), period: day, model: selectedModel)
     }
 }

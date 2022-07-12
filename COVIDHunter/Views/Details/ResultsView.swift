@@ -24,7 +24,7 @@ struct ResultsView: View {
                     deaths
                 }.tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
             }
-            .frame(height:500)
+            .frame(height: 350)
             
             Text("Overview")
                 .font(.title3)
@@ -43,7 +43,7 @@ struct ResultsView: View {
 
 struct ResultsView_Previews: PreviewProvider {
     static var previews: some View {
-        ResultsView(results: ResultModel(newlyInfected0: [Int](repeating: 10, count: 730), newlyInfected1: [Int](repeating: 10, count: 730), hospitalizationsNumber: [Double](repeating: 10, count: 730), deathsNumber: [Double](repeating: 10, count: 730), infections: [0, 10, 10, 10], immune: 50, period: 730))
+        ResultsView(results: ResultModel(newlyInfected0: [Int](repeating: 10, count: 730), newlyInfected1: [Int](repeating: 10, count: 730), hospitalizationsNumber: [Double](repeating: 10, count: 730), deathsNumber: [Double](repeating: 10, count: 730), infections: [0, 10, 10, 10], immune: 50, period: 730, model: .Harvard))
     }
 }
 
@@ -68,6 +68,12 @@ extension ResultsView {
     
     private var stats: some View {
         VStack(spacing: 10) {
+            VStack() {
+                Text("Simulation Model")
+                    .font(.subheadline)
+                Text("\(results.model.rawValue)")
+                    .font(.headline)
+            }
             HStack {
                 VStack(alignment: .leading) {
                     Text("Total Infections")

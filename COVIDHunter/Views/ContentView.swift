@@ -396,7 +396,7 @@ extension ContentView {
                             showHarvardEditView = true
                             vm.modelInitalized = true
                         } label: {
-                            Text("Edit CRW Values and Transitions")
+                            Text("Initalize and Edit CRW Values and Transitions")
                         }
 
                     }
@@ -470,7 +470,9 @@ extension ContentView {
                 
                 Section {
                     Button(action: {
-                        // add sheet
+                        vm.M = [0, 0.45, 0.7,  0.7, 0.65, 0.63, 0.5, 0.355, 0.6, 0.7, 0.7, 0.71, 0.73, 0.73, 0.6, 0.35, 0.6]
+                        vm.TRANSITIONS = [1,   58,  77,  118,  132,  151, 174, 245, 284, 303, 320,  330,  356,  387, 425,  475,  505]
+                        showMTEditView.toggle()
                     }, label: {
                         Text("Edit M and Transitions")
                     })
@@ -483,6 +485,9 @@ extension ContentView {
         .sheet(isPresented: $showHarvardEditView) {
             HarvardEditView()
         }
+        .sheet(isPresented: $showMTEditView) {
+            MTEditView()
+        }
     }
     
     
@@ -491,7 +496,11 @@ extension ContentView {
             VStack {
                 Button(action: {
                     Task {
+                        print("Append 9999...")
+//                        vm.TRANSITIONS.append(9999)
+                        print("Appended")
                         await vm.run()
+                        print("finished running")
                         showResultsView.toggle()
                     }
                 }, label: {

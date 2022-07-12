@@ -10,25 +10,25 @@ import Foundation
 // get the values of a specified model
 
 // want to seperate and organize them into different models
-enum ModelEnum: String, CaseIterable {
+enum ModelEnum: String, CaseIterable, Codable {
     case CTC
     case Harvard
     case Brazil
     case Wang
     
-//    // recommend CTC and CRW
-//    func getModel() -> Model {
-//        switch self {
-//        case .Brazil:
-//            return Model(TEMP_SCALING_FACTOR: 0.05, TEMP_SCALING_FLOOR: 10.0, TEMP_SCALING_CEILING: 26.0)
-//        case .CTC:
-//            return Model(TEMP_SCALING_FACTOR: 0.0367, TEMP_SCALING_FLOOR: 1.0, TEMP_SCALING_CEILING: 29.0)
-//        case .Wang:
-//            return Model(TEMP_SCALING_FACTOR: 0.02, TEMP_SCALING_FLOOR: <#T##Double#>, TEMP_SCALING_CEILING: <#T##Double#>)
-//        case .HarvardCRW:
-//            return Model(TEMP_SCALING_FACTOR: <#T##Double#>, TEMP_SCALING_FLOOR: <#T##Double#>, TEMP_SCALING_CEILING: <#T##Double#>)
-//        }
-//    }
+    //    // recommend CTC and CRW
+    //    func getModel() -> Model {
+    //        switch self {
+    //        case .Brazil:
+    //            return Model(TEMP_SCALING_FACTOR: 0.05, TEMP_SCALING_FLOOR: 10.0, TEMP_SCALING_CEILING: 26.0)
+    //        case .CTC:
+    //            return Model(TEMP_SCALING_FACTOR: 0.0367, TEMP_SCALING_FLOOR: 1.0, TEMP_SCALING_CEILING: 29.0)
+    //        case .Wang:
+    //            return Model(TEMP_SCALING_FACTOR: 0.02, TEMP_SCALING_FLOOR: <#T##Double#>, TEMP_SCALING_CEILING: <#T##Double#>)
+    //        case .HarvardCRW:
+    //            return Model(TEMP_SCALING_FACTOR: <#T##Double#>, TEMP_SCALING_FLOOR: <#T##Double#>, TEMP_SCALING_CEILING: <#T##Double#>)
+    //        }
+    //    }
     
 }
 
@@ -67,7 +67,7 @@ struct BrazilModel {
         self.TEMP_SCALING_FLOOR = TEMP_SCALING_FLOOR // Limit temperature below which linear temperature scaling is no longer applied to the R0 value.
         self.TEMP_SCALING_CEILING = TEMP_SCALING_CEILING // Limit temperature above which linear temperature scaling is no longer applied to the R0 value.
     }
-
+    
 }
 
 struct HarvardModel {
@@ -89,14 +89,14 @@ struct HarvardModel {
 struct WangModel {
     let Wang_TEMP_SCALING_FACTOR: Double // Linear scaling of infectiousness per degree temperature drop. 0.05 => 5% more infectious per degree of temperature drop
     let Wang_Humidity_SCALING_FACTOR: Double // Linear scaling of infectiousness per degree temperature drop. 0.05 => 5% more infectious per degree of temperature drop
-
+    
     // not specifically needed for the wang model
-//    // THIS IS FOR SWITZERLAND SPECIFIC, maybe change to be user configurable later
-//    let TEMP_MONTHLY_HIGH = [4, 6, 11, 15, 19, 23, 25, 24, 20, 15, 9, 5]
-//    let TEMP_November_HIGH = [13, 15, 12, 12, 8, 8, 8, 3, 6, 6, 9, 6, 5, 6, 4, 5, 2, 4, 3, 6, 7, 7, 8, 9, 9, 10, 9, 7, 4, 5]
-//    let TEMP_MONTHLY_LOW = [-1, 0, 3,  6, 10, 13,  15, 15, 12, 8,  3, 0]
-//    // Relative humidity https://www.worlddata.info/europe/switzerland/climate.php
-//    let Humidity_MONTHLY_HIGH = [80, 77, 71, 69, 71, 70, 68, 72, 76, 80, 80, 80]
+    //    // THIS IS FOR SWITZERLAND SPECIFIC, maybe change to be user configurable later
+    //    let TEMP_MONTHLY_HIGH = [4, 6, 11, 15, 19, 23, 25, 24, 20, 15, 9, 5]
+    //    let TEMP_November_HIGH = [13, 15, 12, 12, 8, 8, 8, 3, 6, 6, 9, 6, 5, 6, 4, 5, 2, 4, 3, 6, 7, 7, 8, 9, 9, 10, 9, 7, 4, 5]
+    //    let TEMP_MONTHLY_LOW = [-1, 0, 3,  6, 10, 13,  15, 15, 12, 8,  3, 0]
+    //    // Relative humidity https://www.worlddata.info/europe/switzerland/climate.php
+    //    let Humidity_MONTHLY_HIGH = [80, 77, 71, 69, 71, 70, 68, 72, 76, 80, 80, 80]
     
     init() {
         Wang_TEMP_SCALING_FACTOR = 0.02
@@ -127,6 +127,10 @@ struct CTCModel {
     }
 }
 
+struct MitigationModel {
+    
+}
+
 // model of results
 //             print("\(day+1), \(POPULATION-free_person_ptr), \(newly_infected[0]), \(newly_infected[1]), \(hospitalizations_number), \(deaths_number), \(infected_original), \(contagious), \(sick_person_ptr+immune), \(total_vaccinated),  \(asymptomatic), \(total_travelers), \(intrinsic_r_string), \(C_string), \(M_string), \(phase_string), \(temp_r_string), \(phase_temp_r_string), \(actual_r_string)")
 struct ResultModel: Codable {
@@ -140,10 +144,94 @@ struct ResultModel: Codable {
     let immune: Double
     
     let period: Int
+    
+    let model: ModelEnum
 }
 
 enum GraphEnum: String, CaseIterable {
     case infections
     case hospitalizations
     case deaths
+}
+
+struct MTModel: Codable {
+    var M: [Double]
+    var TRANSITIONS: [Int]
+}
+
+enum MTEnum {
+    case Brazil100
+    case Brazil10
+    
+    case CTC100
+    case CTC50
+    case CTC50_notemp
+    case CTC10
+    
+    case CRW100
+    case CRW50
+    case CRW10
+    
+    case Wang100
+    case Wang10
+    
+    var model: MTModel {
+        switch self {
+        case .Brazil100:
+            return MTModel(
+                M: [0, 0.2233, 0.329, 0.384, 0.4, 0.4444, 0.7315, 0.6944, 0.6574, 0.6296, 0.5, 0.4815, 0.3704, 0.412, 0.406, 0.438, 0.5019, 0.55, 0.7, 0.75,    0, 0.75],
+                TRANSITIONS: [1,     56,     58,   59,   63,     73,    77,    118,    132,    151, 158,    160,    174,    185,   245,   284,   293,   294, 303,  330,   355,  370]
+            )
+        case .Brazil10:
+            return MTModel(
+                M: [0, 0.19, 0.19, 0.22, 0.25, 0.3444, 0.5515, 0.7, 0.7044, 0.5074, 0.50296, 0.5, 0.04815, 0.0504, 0.112, 0.2,0.338, 0.35, 0.32, 0.585, 0.6,    0, 0.6],
+                TRANSITIONS: [1,  56,  58,   59,   63,     73,    77,    90,    118,    132,    151, 158,    160,    174,     185, 210,  230,   264,  280,    303, 330,  355, 370]
+            )
+        case .CTC100:
+            return MTModel(
+                M: [0, 0.45, 0.7,  0.7, 0.65, 0.63, 0.5, 0.355, 0.6, 0.7, 0.7, 0.71, 0.73, 0.73, 0.6, 0.35, 0.6],
+                TRANSITIONS: [1,   58,  77,  118,  132,  151, 174,   245, 284, 303, 320,  330,  356,  387, 425,  475,  505]
+            )
+        case .CTC50:
+            return MTModel(
+                M: [0, 0.35, 0.66,  0.7, 0.65, 0.63, 0.5, 0.35, 0.5, 0.65, 0.68, 0.69, 0.69, 0.35, 0.7, 0.7],
+                TRANSITIONS: [1,   58,   76,  100,  132,  151, 174,  235,  274,  303,  320,  330,  356, 387, 420, 450]
+            )
+        case .CTC50_notemp:
+            return MTModel(
+                M: [0, 0.13, 0.6,  0.7, 0.65, 0.63, 0.6, 0.6, 0.45, 0.57, 0.59, 0.58, 0.55, 0.13, 0.55, 0.55],
+                TRANSITIONS: [1,   58, 76,  100,  132,  151, 174,  235,  274,  303,  320,  330,  356, 387, 420, 450]
+            )
+        case .CTC10:
+            return MTModel(
+                M: [0, 0.27, 0.585, 0.7, 0.4, 0.2, 0.55, 0.55, 0.44, 0.44, 0.42, 0.3, 0.2],
+                TRANSITIONS: [1,   63,    77,  90, 188, 235, 293,  303, 330,  356,  387, 420, 450,9999]
+            )
+        case .CRW100:
+            return MTModel(
+                M: [0, 0.45, 0.7,  0.7, 0.65, 0.63, 0.5, 0.36, 0.37, 0.6, 0.71,  0.71, 0.71, 0.73,  0.35, 0.73, 0.73],
+                TRANSITIONS: [1,   58,  77,  118,  132,  151, 174,  245, 260, 284, 303,  320, 330,  356,  387, 420,  450, 9999]
+            )
+        case .CRW50:
+            return MTModel(
+                M: [0, 0.35, 0.7,  0.71, 0.65, 0.63, 0.5, 0.35, 0.5, 0.68, 0.7, 0.71, 0.71, 0.35, 0.71, 0.71],
+                TRANSITIONS: [1,   58,   76,  100,  132,  151, 174,  235,  274,  303,  320,  330,  356, 387, 420, 450, 9999]
+            )
+        case .CRW10:
+            return MTModel(
+                M: [0, 0.27, 0.485, 0.7, 0.4, 0.2, 0.7, 0.5,  0.6, 0.58, 0.2],
+                TRANSITIONS: [1,   63,    77,  90, 188, 245,  293,  303,  330, 356, 387, 9999]
+            )
+        case .Wang100:
+            return MTModel(
+                M: [0, 0.3, 0.45, 0.54, 0.7, 0.3, 0.37, 0.45, 0.57, 0.72, 0.8, 0.57],
+                TRANSITIONS: [1,   56,   63,  77,  90,  245, 284,   293, 303,  330,  355,  380, 9999]
+            )
+        case .Wang10:
+            return MTModel(
+                M: [0, 0.27, 0.4, 0.7, 0.4, 0.2, 0.3, 0.4, 0.4, 0.2, 0.4],
+                TRANSITIONS: [1,   63,  77,  90, 188, 245, 293, 303,  330, 355,  380]
+            )
+        }
+    }
 }
