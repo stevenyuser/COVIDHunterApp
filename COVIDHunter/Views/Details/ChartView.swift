@@ -67,9 +67,18 @@ struct ChartView: View {
     
     var body: some View {
         VStack {
-            LineView(data: data, title: title, legend: legend, style: style, valueSpecifier: "%.0f")
-                .frame(height: 325)
-            chartXAxis
+//            LineChartView(data: data, title: title, legend: legend, style: style, rateValue: nil, valueSpecifier: "%.0f")
+//                .frame(height: 325)
+//            LineView(data: data, title: title, legend: legend, style: style, valueSpecifier: "%.0f")
+//                .frame(height: 325)
+            
+//            LineChartView(data: data, title: title, legend: legend, style: style, form: ChartForm.extraLarge, rateValue: nil, valueSpecifier: "%.0f")
+//                .padding()
+            
+            LineChartView(data: data, title: title, legend: legend, style: style, form: ChartForm.superLarge, rateValue: nil, dropShadow: false, valueSpecifier: "%.0f")
+                .frame(height: 350)
+            
+//            chartXAxis
         }
         .padding()
     }
