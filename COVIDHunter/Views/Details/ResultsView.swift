@@ -5,10 +5,14 @@
 //  Created by Steven Yu on 3/6/22.
 //
 
+import Foundation
+import UniformTypeIdentifiers
 import SwiftUI
 
 struct ResultsView: View {
+    @State private var showExporter = false
     var results: ResultModel
+    @State var document: JSONDocument? = nil
     
     var body: some View {
         ScrollView {
@@ -36,8 +40,28 @@ struct ResultsView: View {
             
             stats
             
+            Button {
+                self.document = try! JSONDocument(results: results)
+                showExporter.toggle()
+            } label: {
+                Text("Export Results")
+                    .font(.headline)
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .foregroundColor(Color.white)
+                    .background(Color.blue)
+                    .cornerRadius(10)
+            }
         }
         .padding()
+        .fileExporter(isPresented: $showExporter, document: document, contentType: UTType.json) { result in
+            switch result {
+            case .success(let url):
+                print("Saved to \(url)")
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
 }
 
