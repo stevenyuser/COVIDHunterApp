@@ -106,6 +106,10 @@ extension ContentView {
                 .background(Color.blue)
                 .cornerRadius(10)
                 
+                Spacer()
+                
+                Text("Created by")
+                    .frame(maxWidth: .infinity, alignment: .center)
                 
                 Link(destination: URL(string: "https://safari.ethz.ch/")!) {
                     Label("SAFARI Research Group", systemImage: "link")
