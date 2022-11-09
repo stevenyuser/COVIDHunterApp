@@ -92,7 +92,6 @@
 			isa = PBXGroup;
 			children = (
 				1612088327A61DD0009B97B0 /* COVIDHunterApp.swift */,
-				1612089927A6252F009B97B0 /* Services */,
 				1612089827A62520009B97B0 /* Models */,
 				1612089B27A6254B009B97B0 /* ViewModels */,
 				1612089A27A62541009B97B0 /* Views */,
@@ -120,13 +119,6 @@
 				16E2AE99289185630056ECE9 /* JSONDocument.swift */,
 			);
 			path = Models;
-			sourceTree = "<group>";
-		};
-		1612089927A6252F009B97B0 /* Services */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Services;
 			sourceTree = "<group>";
 		};
 		1612089A27A62541009B97B0 /* Views */ = {

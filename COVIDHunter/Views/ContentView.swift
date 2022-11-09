@@ -8,7 +8,7 @@
 import SwiftUI
 
 // TODO: add quick start simulation button to beginning
-// TODO: options for defualt params or user saved params
+// TODO: options for default params or user saved params
 
 struct ContentView: View {
     

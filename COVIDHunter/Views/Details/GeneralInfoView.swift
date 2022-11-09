@@ -9,10 +9,12 @@ import SwiftUI
 
 struct GeneralInfoView: View {
     var body: some View {
+        
+        Text("COVIDHunter can be customized with a variety of parameters.")
+            .font(.title2)
+            .padding()
+        
         ScrollView {
-            Text("COVIDHunter can be customized with a variety of parameters.")
-                .padding()
-            
             VStack {
                 Text("Basic Parameters")
                     .font(.title3)
@@ -177,6 +179,7 @@ struct GeneralInfoView: View {
                 }
                 
             }
+            .padding()
         }
     }
 }

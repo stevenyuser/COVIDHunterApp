@@ -12,7 +12,7 @@ import GameplayKit
 // TODO: Add progress bar view
 // TODO: make model initalized FALSE after finished running
 // TODO: Fix background added changes bug
-// TODO: Fix hospitilization and infection reset (after a certian number)
+// TODO: Fix hospitilization and infection reset (after a certain number)
 class SimulationViewModel: ObservableObject {
     
     // USER EDITABLE PARAMS
